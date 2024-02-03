@@ -6,18 +6,22 @@
 
 
 @section('main')
-    <h1>Main Show</h1>
-    <div>{{ $comic->title }}</div>
-    <br>
+    <h1>{{ $comic->title }}</h1>
 
+    <div>
+        <img src="{{ $comic->thumb }}" alt="{{ $comic->title }}">
+    </div>
+
+    <h2>Series</h2>
     <div>{{ $comic->series }}</div>
-    <br>
 
+    <h2>Price</h2>
     <div>{{ $comic->price }}</div>
-    <br>
 
+    <h2>Description</h2>
     <div>{{ $comic->description }}</div>
     <br>
 
+    <h2>Sale Date</h2>
     <div>{{ $comic->sale_date }}</div>
 @endsection

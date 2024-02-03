@@ -6,8 +6,26 @@
 
 
 @section('main')
-    <h1>Main Index</h1>
-    @foreach ($comics as $comic)
-        <div>{{ $comic->title }} <a href="{{ route('comics.show', $comic->id) }}">view details</a></div>
-    @endforeach
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Series</th>
+                <th scope="col">Price</th>
+                <th scope="col">Sale Date</th>
+                <th scope="col">View Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($comics as $comic)
+                <tr>
+                    <td>{{ $comic->title }}</td>
+                    <td>{{ $comic->series }}</td>
+                    <td>{{ $comic->price }}$</td>
+                    <td>{{ $comic->sale_date }}</td>
+                    <td><a href="{{ route('comics.show', $comic->id) }}">Click Here</a></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @endsection
