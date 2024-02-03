@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ComicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//faccio si che la pagina a caricamento del sito sia la index, lista dei comics
+Route::get('/', [ComicController::class, 'index']);
+
+//creo tutte le rotte della CRUD
+Route::resource('comics', ComicController::class);
