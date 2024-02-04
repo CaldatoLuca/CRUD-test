@@ -69,7 +69,8 @@
         <div class="mb-3">
             <label for="comic-description" class="form-label">Comic Description</label>
             <div class="input-group">
-                <textarea class="form-control" id="comic-description" aria-label="With textarea" name="description"></textarea>
+                <textarea class="form-control" cols="30" rows="10" id="comic-description" aria-label="With textarea"
+                    name="description"></textarea>
             </div>
         </div>
 
