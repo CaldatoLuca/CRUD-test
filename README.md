@@ -132,3 +132,85 @@ Al metodo show passo un istanza del model Comic(Dependency injection): **'public
 Al return passo l' istanza creata: **'return view('comics.show', compact('comic'));'**
 
 Poi nell mia index creo un link, dentro al foreach, che rimanda alla pagina show: **'<a href="{{ route('comics.show', $comic->id) }}">view details</a>'** a cui passo l' id
+
+### Create, creazione di una nuova risorsa
+
+Nel metodo create vado solo a inserire un return che rimanda alla pagina create del sito.
+
+Dentro questa pagina sarà presente un form dove inserire in campi di un nuovo dato, rispettando le informazioni date al db con le migrations.
+
+Il form avrà come action la rotta per store, per salvare la risorsa: **'action="{{ route('comics.store') }}"'**
+
+Il metodo sarà post: **'method="POST"'**
+
+Subito dopo il form sarà necessario inserire un token che genera Laravel per assicurarsi che la chiamata post avvenga tramite un form del sito: **'@csrf'**
+
+Infine i name dei campi input devono essere uguali a quelli dati nel db.
+
+### Store, salviamo il nuovo comic
+
+Questo metodo non necessita di una view perchè faràun return allo show del comic appena creato: **'return redirect()->route('comics.show', $comic->id);'** è necessario passare l' id della nuova istanza per visualizzare i dettagli.
+
+Grazie a una request prende i dati inseriti, li salviamo in una variabile: **'$data = $request->all();'**
+
+Creiamo poi una nuova istanza, inseriamo i dati e la salviamo:
+
+**'$comic = new Comic();?**
+
+**'$comic->title = $data['title'];'**
+
+**'$comic->save();'**
+
+Se i campi hanno tutti lo stesso nome possiamo non salvarli uno ad uno ma usare il metodo fill e poi salvare: **'$comic->fill($data);'**
+
+### Edit, modifichiamo un dato esistente
+
+Funziona similmente a create e update,
+
+Nel metodo edit, tramite Dependency Ingection, passiamo solo l' istanza comic desiderata; andiamo quindi a dare l' id al link che richiama questa rotta: **'return view('comics.edit', compact('comic'));'** e **'<a href="{{ route('comics.edit', $comic->id) }}">Edit</a>'**
+
+Nella view edit inseriamo un form, nel mio caso identico a quello in create.
+
+Il form dovrà avere i campi precompilati: **'value="{{ $comic->title }}"'**
+
+Come action la rotta update con id: **'action="{{ route('comics.update', $comic->id) }}"'**
+
+Come metodo POST che però andiamo a cambiare in PUT: **'@method('PUT')'**
+
+NB
+
+PUT è usato per modificare tutta la risorsa
+
+PATCH è usato per modificare un campo
+
+### Update, salviamo l' edit
+
+Come per lo store salviamo tutti i dati con request: **'$data = $request->all();'**
+
+Runniamo il metodo update, che riassegna i valori e li salva per noi: **'$comic->update($data);'** simile a fill ma senza save
+
+Returniamo un redirect alla show, passando l' id: **'return redirect()->route('comics.show', $comic->id);'**
+
+Dobbiamo però specificare quali campi possono cambiare con un mass update, vado nel model e ho 2 opzioni:
+
+-   fillable: **'protected $fillable = ['title', 'description', 'thumb', 'price', 'series', 'sale_date', 'type'];'** indico i campi autorizzati
+
+-   guarded: **'$guarded = [];'** indico i campi non autorizzati - questa è piu comoda
+
+NB Questo va a influenzare anche lo store
+
+### Delete, cancelliamo una risorsa
+
+Sempre garzie alla Dependency Ingection andiamo ad agire sull' istanza voluta, questo perchè nella index passiamo l' id al link: **'$comic->delete();'**
+
+Per comodità facciamo un redirecr alla index
+
+Nella index per ogni elemento devoaggiungere un form con solo un bottone, a cui date il metodo DELETE:
+
+```html
+<form action="{{ route('comics.destroy', $comic->id) }}" method="POST">
+    @csrf {{-- aggiungo il metodo delete --}} @method('DELETE')
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+</form>
+```
