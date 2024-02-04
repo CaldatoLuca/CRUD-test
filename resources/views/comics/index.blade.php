@@ -16,6 +16,7 @@
                 <th scope="col">Sale Date</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +28,16 @@
                     <td>{{ $comic->sale_date }}</td>
                     <td><a href="{{ route('comics.show', $comic->id) }}">View Details</a></td>
                     <td><a href="{{ route('comics.edit', $comic->id) }}">Edit</a></td>
+                    <td>
+                        <form action="{{ route('comics.destroy', $comic->id) }}" method="POST">
+                            @csrf
+
+                            {{-- aggiungo il metodo delete --}}
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
