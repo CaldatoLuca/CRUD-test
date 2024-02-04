@@ -14,7 +14,8 @@
                 <th scope="col">Series</th>
                 <th scope="col">Price</th>
                 <th scope="col">Sale Date</th>
-                <th scope="col">View Details</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +25,8 @@
                     <td>{{ $comic->series }}</td>
                     <td>{{ $comic->price }}$</td>
                     <td>{{ $comic->sale_date }}</td>
-                    <td><a href="{{ route('comics.show', $comic->id) }}">Click Here</a></td>
+                    <td><a href="{{ route('comics.show', $comic->id) }}">View Details</a></td>
+                    <td><a href="{{ route('comics.edit', $comic->id) }}">Edit</a></td>
                 </tr>
             @endforeach
         </tbody>
