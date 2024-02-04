@@ -6,6 +6,7 @@
 
 
 @section('main')
+    <h2>Your comics list</h2>
     <table class="table">
         <thead>
             <tr>
