@@ -8,11 +8,11 @@
 @section('main')
     <h2>Insert a new comic</h2>
 
-    //form con rotta verso store in post
-    //i name nei form devono essere uguali a quelli nel db e rispettare le prorietà date nella migration
+    {{-- form con rotta verso store in post
+    i name nei form devono essere uguali a quelli nel db e rispettare le prorietà date nella migration --}}
     <form action="{{ route('comics.store') }}" method="POST">
 
-        //chiave di laravel per controllo
+        {{-- chiave di laravel per controllo --}}
         @csrf
 
         <div class="mb-3">

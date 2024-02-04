@@ -16,7 +16,7 @@
     <div>{{ $comic->series }}</div>
 
     <h2>Price</h2>
-    <div>{{ $comic->price }}</div>
+    <div>{{ $comic->price }}$</div>
 
     <h2>Description</h2>
     <div>{{ $comic->description }}</div>
