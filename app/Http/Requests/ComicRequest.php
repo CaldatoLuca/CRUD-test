@@ -32,4 +32,20 @@ class ComicRequest extends FormRequest
             'type' => 'required|string|max:50',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'required' => "Il campo :attribute è richiesto.",
+            'string'  => "Il campo :attribute deve essere un testo.",
+            'thumb.url' => "L'url non ha un formato valido",
+            'max' => [
+                'string' => "La lunghezza del campo :attribute non può superare i
+                         :max caratteri."
+            ],
+            'numeric' => "Il campo :attribute deve contenere solo numeri.",
+            'price.between' =>  "Il prezzo deve essere compreso tra 0 e 9999.99",
+            'sale_date' => "La data non ha un formato valido"
+        ];
+    }
 }
