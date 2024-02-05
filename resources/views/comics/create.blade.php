@@ -19,7 +19,7 @@
             <label for="comic-title" class="form-label">Comic Title</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="comic-title" aria-describedby="basic-addon3 basic-addon4"
-                    name="title">
+                    name="title" required>
             </div>
         </div>
 
@@ -27,7 +27,7 @@
             <label for="comic-img" class="form-label">Comic Image Url</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="comic-img" aria-describedby="basic-addon3 basic-addon4"
-                    name="thumb">
+                    name="thumb" required>
             </div>
             <div class="form-text" id="basic-addon4">Insert all the url</div>
         </div>
@@ -36,7 +36,7 @@
             <label for="comic-price" class="form-label">Comic Price</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="comic-price" aria-describedby="basic-addon3 basic-addon4"
-                    name="price">
+                    name="price" required>
             </div>
             <div class="form-text" id="basic-addon4">Inserti only the number ex. 34.90</div>
         </div>
@@ -45,7 +45,7 @@
             <label for="comic-series" class="form-label">Comic Series</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="comic-series" aria-describedby="basic-addon3 basic-addon4"
-                    name="series">
+                    name="series" required>
             </div>
         </div>
 
@@ -53,7 +53,7 @@
             <label for="comic-sale-date" class="form-label">Comic Sale Date</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="comic-sale-date" aria-describedby="basic-addon3 basic-addon4"
-                    name="sale_date">
+                    name="sale_date" required>
             </div>
             <div class="form-text" id="basic-addon4">Example: 2024-11-08 YYYY-MM-DD</div>
         </div>
@@ -62,7 +62,7 @@
             <label for="comic-type" class="form-label">Comic Type</label>
             <div class="input-group">
                 <input type="text" class="form-control" id="comic-type" aria-describedby="basic-addon3 basic-addon4"
-                    name="type">
+                    name="type" required>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
             <label for="comic-description" class="form-label">Comic Description</label>
             <div class="input-group">
                 <textarea class="form-control" cols="30" rows="10" id="comic-description" aria-label="With textarea"
-                    name="description"></textarea>
+                    name="description" required></textarea>
             </div>
         </div>
 
