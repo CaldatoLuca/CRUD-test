@@ -10,7 +10,7 @@
 
     {{-- form con rotta verso store in post
     i name nei form devono essere uguali a quelli nel db e rispettare le prorietà date nella migration --}}
-    <form action="{{ route('comics.store') }}" method="POST">
+    <form action="{{ route('comics.store') }}" method="POST" class="h-100">
 
         {{-- chiave di laravel per controllo --}}
         @csrf

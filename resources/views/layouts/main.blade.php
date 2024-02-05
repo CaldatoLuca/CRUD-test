@@ -10,9 +10,9 @@
     @vite('resources/js/app.js')
 </head>
 
-<body class="p-5">
+<body>
     @include('shared.header')
-    <main>
+    <main class="p-4">
         @yield('main')
     </main>
     @include('shared.footer')
