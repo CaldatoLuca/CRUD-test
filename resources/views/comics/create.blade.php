@@ -36,8 +36,9 @@
             <div class="input-group">
                 {{-- input --}}
                 {{-- do classe is-invalid se ho erroe su title --}}
+                {{-- metodo old nel value per ricordare il vechhio campo e tenerlo se non supoero validazione, non riscrivo tutto --}}
                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="comic-title"
-                    aria-describedby="basic-addon3 basic-addon4" name="title" required>
+                    aria-describedby="basic-addon3 basic-addon4" name="title" value="{{ old('title') }}" required>
             </div>
             {{-- errore titolo --}}
             @error('title')
@@ -51,7 +52,7 @@
             <div class="input-group">
                 {{-- input --}}
                 <input type="text" class="form-control @error('thumb') is-invalid @enderror" id="comic-img"
-                    aria-describedby="basic-addon3 basic-addon4" name="thumb" required>
+                    aria-describedby="basic-addon3 basic-addon4" name="thumb" value="{{ old('thumb') }}" required>
             </div>
             {{-- errore url immagine --}}
             @error('thumb')
@@ -66,7 +67,7 @@
             <div class="input-group">
                 {{-- input --}}
                 <input type="text" class="form-control @error('price') is-invalid @enderror" id="comic-price"
-                    aria-describedby="basic-addon3 basic-addon4" name="price" required>
+                    aria-describedby="basic-addon3 basic-addon4" name="price" value="{{ old('price') }}" required>
             </div>
             {{-- errore prezzo --}}
             @error('price')
@@ -81,7 +82,7 @@
             <div class="input-group">
                 {{-- input --}}
                 <input type="text" class="form-control @error('series') is-invalid @enderror" id="comic-series"
-                    aria-describedby="basic-addon3 basic-addon4" name="series" required>
+                    aria-describedby="basic-addon3 basic-addon4" name="series" value="{{ old('series') }}" required>
             </div>
             {{-- errore serie --}}
             @error('series')
@@ -95,7 +96,7 @@
             <div class="input-group">
                 {{-- input --}}
                 <input type="text" class="form-control @error('sale_date') is-invalid @enderror" id="comic-sale-date"
-                    aria-describedby="basic-addon3 basic-addon4" name="sale_date" required>
+                    aria-describedby="basic-addon3 basic-addon4" name="sale_date" value="{{ old('sale_date') }}" required>
             </div>
             {{-- errore data inizio vendita --}}
             @error('sale_date')
@@ -110,7 +111,7 @@
             <div class="input-group">
                 {{-- input --}}
                 <input type="text" class="form-control @error('type') is-invalid @enderror" id="comic-type"
-                    aria-describedby="basic-addon3 basic-addon4" name="type" required>
+                    aria-describedby="basic-addon3 basic-addon4" name="type" value="{{ old('type') }}" required>
             </div>
             {{-- errore tipo --}}
             @error('type')
@@ -124,7 +125,7 @@
             <div class="input-group">
                 {{-- input --}}
                 <textarea class="form-control @error('description') is-invalid @enderror" cols="30" rows="10"
-                    id="comic-description" aria-label="With textarea" name="description" required></textarea>
+                    id="comic-description" aria-label="With textarea" name="description" required>{{ old('description') }}</textarea>
             </div>
             {{-- errore descrizione --}}
             @error('description')
