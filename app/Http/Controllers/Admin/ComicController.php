@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Comic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ComicController extends Controller
 {
@@ -34,17 +35,23 @@ class ComicController extends Controller
     public function store(Request $request)
     {
         //validazione dei dati inseriti dall'utente
-        $request->validate([
-            'title' => 'required|string|max:100',
-            'description' => 'required|string|max:1000',
-            'thumb' => 'required|string|url|ends_with:png,jpg,webp|max:500',
-            'price' => 'required|numeric|between:0,9999.99',
-            'series' => 'required|string|max:100',
-            'sale_date' => 'required|date',
-            'type' => 'required|string|max:50',
-        ]);
+        //metodo built in
+        // $request->validate([
+        //     'title' => 'required|string|max:100',
+        //     'description' => 'required|string|max:1000',
+        //     'thumb' => 'required|string|url|ends_with:png,jpg,webp|max:500',
+        //     'price' => 'required|numeric|between:0,9999.99',
+        //     'series' => 'required|string|max:100',
+        //     'sale_date' => 'required|date',
+        //     'type' => 'required|string|max:50',
+        // ]);
 
-        $data = $request->all();
+        // $data = $request->all();
+
+        //richiamo il metodo validator creato e ne salvo dentro i dati
+        //valido e salvo nella stessa operazione
+
+        $data = $this->validateData($request->all());
 
         $comic = new Comic();
 
@@ -101,5 +108,39 @@ class ComicController extends Controller
         $comic->delete();
 
         return redirect()->route('comics.index');
+    }
+
+    /**
+     * My validator function
+     */
+    private function  validateData($data)
+    {
+        //creo un validator importanto Validator
+        //passo 3 argomenti: dati, validazioni e messaggi di errore personalizzati
+        //nei messaggi di errore posso usare :attribute o :max per richiamare il valore messo dall' utente
+        //alla fine valido il tutto e rwturno il validator
+        $validator = Validator::make($data, [
+            'title' => 'required|string|max:100',
+            'description' => 'required|string|max:1000',
+            'thumb' => 'required|string|url|ends_with:png,jpg,webp|max:500',
+            'price' => 'required|numeric|between:0,9999.99',
+            'series' => 'required|string|max:100',
+            'sale_date' => 'required|date',
+            'type' => 'required|string|max:50',
+        ], [
+            'required' => "Il campo :attribute è richiesto.",
+            'string'  => "Il campo :attribute deve essere un testo.",
+            'thumb.url' => "L'url non ha un formato valido",
+            'thumb.ends_with' => "L'url deve terminare con una delle estensioni: png, jpg o webp",
+            'max' => [
+                'string' => "La lunghezza del campo :attribute non può superare i
+                :max caratteri."
+            ],
+            'numeric' => "Il campo :attribute deve contenere solo numeri.",
+            'price.between' =>  "Il prezzo deve essere compreso tra 0 e 9999.99",
+            'sale_date' => "La data non ha un formato valido"
+        ])->validate();
+
+        return $validator;
     }
 }
