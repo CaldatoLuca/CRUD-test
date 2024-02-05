@@ -6,7 +6,19 @@
 
 
 @section('main')
-    <h2>Insert a new comic</h2>
+    <h2>
+        Insert a new comic</h2>
+
+    @if ($errors->any())
+        <h3 class="text-danger">Something went wrong</h3>
+        <div class="alert alert-danger">
+            <ul class="list-group mb-0 ">
+                @foreach ($errors->all() as $error)
+                    <li class="list-group-item bg-danger-subtle border-0">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     {{-- form con rotta verso store in post
     i name nei form devono essere uguali a quelli nel db e rispettare le prorietà date nella migration --}}
