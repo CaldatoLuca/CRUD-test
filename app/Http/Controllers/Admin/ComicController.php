@@ -92,7 +92,8 @@ class ComicController extends Controller
      */
     public function update(Request $request, Comic $comic)
     {
-        $data = $request->all();
+        //richiamo il metodo per fare validazione
+        $data = $this->validateData($request->all());
 
         //evita riassegnazione e save
         $comic->update($data);
@@ -122,7 +123,7 @@ class ComicController extends Controller
         $validator = Validator::make($data, [
             'title' => 'required|string|max:100',
             'description' => 'required|string|max:1000',
-            'thumb' => 'required|string|url|ends_with:png,jpg,webp|max:500',
+            'thumb' => 'required|string|url|max:500',
             'price' => 'required|numeric|between:0,9999.99',
             'series' => 'required|string|max:100',
             'sale_date' => 'required|date',
@@ -131,7 +132,6 @@ class ComicController extends Controller
             'required' => "Il campo :attribute è richiesto.",
             'string'  => "Il campo :attribute deve essere un testo.",
             'thumb.url' => "L'url non ha un formato valido",
-            'thumb.ends_with' => "L'url deve terminare con una delle estensioni: png, jpg o webp",
             'max' => [
                 'string' => "La lunghezza del campo :attribute non può superare i
                 :max caratteri."
