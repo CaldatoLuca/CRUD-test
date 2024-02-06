@@ -6,6 +6,7 @@ Spiegazione e esercitazione passo passo di un progetto in cui implementare
 -   Model
 -   Seeder
 -   Resource Controller per le CRUD
+-   Validation
 
 ## Migration
 
@@ -214,3 +215,140 @@ Nella index per ogni elemento devoaggiungere un form con solo un bottone, a cui 
     <button type="submit" class="btn btn-danger">Delete</button>
 </form>
 ```
+
+## Validation
+
+Esistono tre metodi per fare validazione, il terzo è il migliore per divisione di file e logica.
+
+### Validazione dentro store e create
+
+Tramite il metodo validai valido i dati dando dei valori all' array associativo, a seconda dei campi inseriti metto la validazione voluta.
+
+```php
+$request->validate([
+    'title' => 'required|string|max:100',
+    'thumb' => 'required|string|url|ends_with:png,jpg,webp|max:500',
+]);
+
+$data = $request->all();
+```
+
+### Validazione tramite funzione built in nel Controller
+
+Creo una funzione e esterna e la richiamo in store e create quando salvo i dati, nel secodo array personalizzo gli errori.
+
+```php
+private function  validateData($data)
+{
+    $validator = Validator::make($data, [
+        'title' => 'required|string|max:100',
+        'description' => 'required|string|max:1000',
+        'price' => 'required|numeric|between:0,9999.99',
+        'type' => 'required|string|max:50',
+    ], [
+        'required' => "Il campo :attribute è richiesto.",
+        'string'  => "Il campo :attribute deve essere un testo.",
+        'max' => [
+                 'string' => "La lunghezza del campo :attribute non può superare i
+                 :max caratteri."
+             ],
+        'price.between' =>  "Il prezzo deve essere compreso tra 0 e 9999.99",
+    ]
+}
+
+// in store e create salvo e richiamo la funzione assieme
+$data = $this->validateData($request->all());
+```
+
+### Creazione di un Form Request
+
+Crea un Form Request atto a fare validazione, nel mio caso uso lo stesso sia per store che per create, si crea con il seguente comando: `php artisan make:request NomeRequest`
+
+Funzione per autorizzazione delle operazioni
+
+```php
+    public function authorize(): bool
+    {
+        //di base è false- non autorizzato
+        return true;
+    }
+```
+
+Funzione per la validazione
+
+```php
+    public function rules(): array
+    {
+        return [
+            'title' => 'required|string|max:100',
+            'description' => 'required|string|max:1000',
+            'thumb' => 'required|string|url|max:500',
+            'price' => 'required|numeric|between:0,9999.99',
+            'series' => 'required|string|max:100',
+            'sale_date' => 'required|date',
+            'type' => 'required|string|max:50',
+        ];
+    }
+```
+
+Funzione per personalizzare gli errori
+
+```php
+    public function messages()
+    {
+        return [
+            'required' => "Il campo :attribute è richiesto.",
+            'string'  => "Il campo :attribute deve essere un testo.",
+            'thumb.url' => "L'url non ha un formato valido",
+            'max' => [
+                'string' => "La lunghezza del campo :attribute non può superare i
+                         :max caratteri."
+            ],
+            'numeric' => "Il campo :attribute deve contenere solo numeri.",
+            'price.between' =>  "Il prezzo deve essere compreso tra 0 e 9999.99",
+            'sale_date' => "La data non ha un formato valido"
+        ];
+    }
+```
+
+Nello store e create salvo cosi i dati: `$data = $request->validated();`
+
+Cambio però la classe che richiama $request: `(ComicRequest $request)`
+
+### Gestione errori nel form
+
+Per vedere gli errori si usa la variabile di Laravel di istanza `$errors`.
+
+```php
+    @if ($errors->any())
+        <h3 class="text-danger">Something went wrong</h3>
+        <div class="alert alert-danger">
+            <ul class="list-group mb-0 ">
+                @foreach ($errors->all() as $error)
+                    <li class="list-group-item bg-danger-subtle border-0">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+```
+
+Per vedere il tipo di errore sotto al campo input e non dove faccio il ciclo devo dare una classe di style (is-invalid) se c'è errore: `@error('title') is-invalid @enderror"`
+
+```php
+                <input type="text" class="form-control @error('title') is-invalid @enderror" id="comic-title"
+                    aria-describedby="basic-addon3 basic-addon4" name="title" value="{{ old('title') }}" required>
+```
+
+Sotto poi visualizzo l' errore:
+
+```php
+            @error('title')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+```
+
+Per tenere il valore inserito nel form uso il metodo old, questo è utile perchè dopo aver compilato tutto il form e non valida solo un campo posso tenere compilato tutto e modificare solo l' errore.
+
+Nel create metto old nel value: `value="{{ old('title') }}"`
+
+In edit do anche un valore di default, il valore del campo da editare: `value="{{ old('title', $comic->title) }}"`
