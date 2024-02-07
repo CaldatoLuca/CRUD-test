@@ -165,7 +165,7 @@ Se i campi hanno tutti lo stesso nome possiamo non salvarli uno ad uno ma usare 
 
 ### Edit, modifichiamo un dato esistente
 
-Funziona similmente a create e update,
+Funziona similmente a create e store,
 
 Nel metodo edit, tramite Dependency Ingection, passiamo solo l' istanza comic desiderata; andiamo quindi a dare l' id al link che richiama questa rotta: `return view('comics.edit',  compact('comic'));` e `<a href="{{ route('comics.edit', $comic->id) }}">Edit</a>`
 
@@ -221,7 +221,7 @@ Nella index per ogni elemento devoaggiungere un form con solo un bottone, a cui 
 
 Esistono tre metodi per fare validazione, il terzo è il migliore per divisione di file e logica.
 
-### Validazione dentro store e create
+### Validazione dentro store e update
 
 Tramite il metodo validai valido i dati dando dei valori all' array associativo, a seconda dei campi inseriti metto la validazione voluta.
 
@@ -236,7 +236,7 @@ $data = $request->all();
 
 ### Validazione tramite funzione built in nel Controller
 
-Creo una funzione e esterna e la richiamo in store e create quando salvo i dati, nel secodo array personalizzo gli errori.
+Creo una funzione e esterna e la richiamo in store e update quando salvo i dati, nel secodo array personalizzo gli errori.
 
 ```php
 private function  validateData($data)
@@ -257,13 +257,13 @@ private function  validateData($data)
     ]
 }
 
-// in store e create salvo e richiamo la funzione assieme
+// in store e update salvo e richiamo la funzione assieme
 $data = $this->validateData($request->all());
 ```
 
 ### Creazione di un Form Request
 
-Crea un Form Request atto a fare validazione, nel mio caso uso lo stesso sia per store che per create, si crea con il seguente comando: `php artisan make:request NomeRequest`
+Crea un Form Request atto a fare validazione, nel mio caso uso lo stesso sia per store che per update, si crea con il seguente comando: `php artisan make:request NomeRequest`
 
 Funzione per autorizzazione delle operazioni
 ```php
@@ -309,7 +309,7 @@ Funzione per personalizzare gli errori
     }
 ```
 
-Nello store e create salvo cosi i dati: `$data = $request->validated();`
+Nello store e update salvo cosi i dati: `$data = $request->validated();`
 
 Cambio però la classe che richiama $request: `(ComicRequest $request)`
 
